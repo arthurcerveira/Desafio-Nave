@@ -11,16 +11,19 @@ async function setNaversData() {
 
         const imageNaver = document.createElement("img");
         imageNaver.src = image_url
+        imageNaver.classList.add("naver-picture")
 
         naverCard.append(imageNaver);
 
         const nameNaver = document.createElement("p");
         nameNaver.innerHTML = name
-
+        nameNaver.classList.add("naver-name")
+        
         naverCard.append(nameNaver);
 
         const roleNaver = document.createElement("p");
-        roleNaver.innerHTML = job_role
+        roleNaver.innerHTML = job_role;
+        roleNaver.classList.add("naver-role");
 
         naverCard.append(roleNaver);
 
