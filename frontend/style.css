@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* border: rebeccapurple 2px solid; */
 }
 
 body {
@@ -45,4 +46,23 @@ body {
 .naver-role {
   font-weight: lighter;
   color: #555;
+}
+
+@media (max-width: 500px) {
+  .navers {
+    display: block;
+  }
+
+  .naver-card {
+    width: 100%;
+    margin: auto;
+
+    padding-bottom: 2rem;
+  }
+
+  .naver-picture {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
 }

@@ -6,6 +6,7 @@ async function setNaversData() {
 
     naversData.map(naver => {
         const naverCard = document.createElement("div");
+        naverCard.classList.add("naver-card")
 
         const {name, image_url, job_role} = naver;
 
