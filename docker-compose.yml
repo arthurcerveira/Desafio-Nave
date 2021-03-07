@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    volumes:
+      - ./backend:/usr/src/
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+  db:
+    image: postgres:alpine
+    volumes:
+      - ./database/postgres/data:/var/lib/postgresql/data/
+      - ./database/postgres/script:/var/lib/postgresql/scripts/
+    environment:
+      - POSTGRES_USER=nave
+      - POSTGRES_PASSWORD=nave
+      - POSTGRES_DB=nave_rs
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
