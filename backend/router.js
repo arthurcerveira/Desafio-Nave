@@ -1,14 +1,15 @@
 const express = require('express');
 
 const router = express.Router();
-const controller = require('./controllers/controller');
+const naverController = require('./controllers/Naver');
+const projectController = require('./controllers/Project');
 
-router.get('/naver', controller.getNavers);
-router.get('/naver/:id', controller.getNaverById);
-router.post('/naver/', controller.createNaver);
+router.get('/naver', naverController.getNavers);
+router.get('/naver/:id', naverController.getNaverById);
+router.post('/naver/', naverController.createNaver);
 
-router.get('/project', controller.getProjects);
-router.get('/project/:id', controller.getProjectById);
-router.post('/project/', controller.createProject);
+router.get('/project', projectController.getProjects);
+router.get('/project/:id', projectController.getProjectById);
+router.post('/project/', projectController.createProject);
 
 module.exports = router;
