@@ -33,17 +33,12 @@ module.exports = {
   },
 
   assignProjectToNavers: async (projectId, navers) => {
-    const naversValue = navers.reduce(
-      (value, naverId) => `${value}(${projectId}, ${naverId}),`,
-      '',
-    );
-
-    await pool.query(
-      `INSERT INTO naver_project (project_id, naver_id)
-       VALUES ${naversValue.slice(0, -1)};`,
-    );
-
-    return true;
+    await Promise.all(navers.map(
+      async (naverId) => pool.query(
+        `INSERT INTO naver_project (project_id, naver_id) 
+         VALUES (${projectId}, ${naverId});`,
+      ),
+    ));
   },
 
 };
