@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const pool = require('./database');
 
 module.exports = {
@@ -36,12 +35,14 @@ module.exports = {
   },
 
   assignNaverToProjects: async (naverId, projects) => {
-    await Promise.all(projects.map(
+    const promises = projects.map(
       async (projectId) => pool.query(
         `INSERT INTO naver_project (project_id, naver_id) 
          VALUES (${projectId}, ${naverId});`,
       ),
-    ));
+    );
+
+    return Promise.all(promises);
   },
 
 };

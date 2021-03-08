@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const naverPool = require('../models/Naver');
 
 module.exports = {

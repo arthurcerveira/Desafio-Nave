@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { Pool } = require('pg');
 const fs = require('fs');
 
