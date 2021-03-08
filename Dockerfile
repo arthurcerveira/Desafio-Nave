@@ -10,6 +10,8 @@ RUN npm install
 # Copy application to docker
 COPY ./backend /usr/src/
 
-ENTRYPOINT [ "npm" ]
+# 'ash' replaces 'bash' in alpine containers
+ENTRYPOINT [ "/bin/ash" ]
 
-CMD [ "start" ]
+# "wait-for" starts node container after PostgreSQL is set-up
+CMD [ "./wait-for", "db:5432", "--", "npm", "start"] 
