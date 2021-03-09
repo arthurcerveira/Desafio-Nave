@@ -1,45 +1,41 @@
-const pool = require('./database');
+const knex = require('./database');
 
 module.exports = {
   getNavers: async () => {
-    const navers = await pool.query('SELECT * FROM naver;');
+    const navers = await knex('naver');
 
-    return navers.rows;
+    return navers;
   },
 
   getNaverById: async (id) => {
-    const naver = await pool.query(`SELECT * FROM naver WHERE id = ${id};`);
+    const naver = await knex('naver').where('id', id).first();
 
-    return naver.rows[0];
+    return naver;
   },
 
   getNaverProjects: async (id) => {
-    const naverProjects = await pool.query(
-      `SELECT project_id, project_name FROM project,
-       naver_project WHERE naver_id = ${id}
-       AND project_id = project.id;`,
-    );
+    const naverProjects = await knex('project')
+      .join('naver_project', 'project_id', '=', 'project.id')
+      .where('naver_id', id)
+      .select('project_id', 'project_name');
 
-    return naverProjects.rows;
+    return naverProjects;
   },
 
-  createNaver: async (name, birthdate, admission_date, job_role) => {
-    const newNaver = await pool.query(
-      `INSERT INTO naver (naver_name, birthdate, admission_date, job_role) \
-       VALUES ('${name}', TO_DATE('${birthdate}', 'YYYY/MM/DD'), \
-       TO_DATE('${admission_date}', 'YYYY/MM/DD'), '${job_role}')  \
-       RETURNING *;`,
-    );
+  createNaver: async (naver_name, birthdate, admission_date, job_role) => {
+    const newNaver = await knex('naver').insert({
+      naver_name, birthdate, admission_date, job_role,
+    }, '*');
 
-    return newNaver.rows[0];
+    return newNaver[0];
   },
 
   assignNaverToProjects: async (naverId, projects) => {
     const promises = projects.map(
-      async (projectId) => pool.query(
-        `INSERT INTO naver_project (project_id, naver_id) 
-         VALUES (${projectId}, ${naverId});`,
-      ),
+      async (projectId) => knex('naver_project').insert({
+        project_id: projectId,
+        naver_id: naverId,
+      }),
     );
 
     return Promise.all(promises);

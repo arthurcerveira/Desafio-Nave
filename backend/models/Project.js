@@ -1,43 +1,42 @@
-const pool = require('./database');
+const knex = require('./database');
 
 module.exports = {
   getProjects: async () => {
-    const projects = await pool.query('SELECT * FROM project;');
+    const projects = await knex('project');
 
-    return projects.rows;
+    return projects;
   },
 
   getProjectById: async (id) => {
-    const project = await pool.query(`SELECT * FROM project WHERE id = ${id};`);
+    const project = await knex('project').where('id', id).first();
 
-    return project.rows[0];
+    return project;
   },
 
   getProjectNavers: async (id) => {
-    const projectNavers = await pool.query(
-      `SELECT naver_id, naver_name, birthdate, admission_date, job_role
-       FROM naver_project, naver WHERE project_id = ${id}
-       AND naver_id = naver.id;`,
-    );
+    const projectNavers = await knex('naver')
+      .join('naver_project', 'naver_id', '=', 'naver.id')
+      .where('project_id', id)
+      .select('naver_id', 'naver_name', 'birthdate',
+        'admission_date', 'job_role');
 
-    return projectNavers.rows;
+    return projectNavers;
   },
 
-  createProject: async (name) => {
-    const newProject = await pool.query(
-      `INSERT INTO project (project_name)
-       VALUES ('${name}') RETURNING *;`,
-    );
+  createProject: async (project_name) => {
+    const newProject = await knex('project').insert({
+      project_name,
+    }, '*');
 
-    return newProject.rows[0];
+    return newProject[0];
   },
 
   assignProjectToNavers: async (projectId, navers) => {
     const promises = navers.map(
-      async (naverId) => pool.query(
-        `INSERT INTO naver_project (project_id, naver_id) 
-         VALUES (${projectId}, ${naverId});`,
-      ),
+      async (naverId) => knex('naver_project').insert({
+        project_id: projectId,
+        naver_id: naverId,
+      }),
     );
 
     return Promise.all(promises);
