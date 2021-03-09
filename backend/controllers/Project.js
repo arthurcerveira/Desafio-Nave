@@ -1,9 +1,9 @@
-const projectPool = require('../models/Project');
+const projectModel = require('../models/Project');
 
 module.exports = {
   getProjects: async (req, res) => {
     try {
-      const projects = await projectPool.getProjects();
+      const projects = await projectModel.getProjects();
 
       res.json(projects);
     } catch (err) {
@@ -15,9 +15,9 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      const project = await projectPool.getProjectById(id);
+      const project = await projectModel.getProjectById(id);
 
-      const projectNavers = await projectPool.getProjectNavers(id);
+      const projectNavers = await projectModel.getProjectNavers(id);
 
       const reponse = project;
       reponse.navers = projectNavers;
@@ -32,13 +32,13 @@ module.exports = {
     const { name, navers } = req.body;
 
     try {
-      const newProject = await projectPool.createProject(name);
+      const newProject = await projectModel.createProject(name);
 
       const projectId = newProject.id;
 
-      if (navers.length > 0) await projectPool.assignProjectToNavers(projectId, navers);
+      if (navers.length > 0) await projectModel.assignProjectToNavers(projectId, navers);
 
-      const projectNavers = await projectPool.getProjectNavers(projectId);
+      const projectNavers = await projectModel.getProjectNavers(projectId);
 
       const response = newProject;
       response.navers = projectNavers;

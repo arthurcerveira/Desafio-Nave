@@ -1,9 +1,9 @@
-const naverPool = require('../models/Naver');
+const naverModel = require('../models/Naver');
 
 module.exports = {
   getNavers: async (req, res) => {
     try {
-      const navers = await naverPool.getNavers();
+      const navers = await naverModel.getNavers();
 
       res.json(navers);
     } catch (err) {
@@ -15,8 +15,8 @@ module.exports = {
     const { id } = req.params;
 
     try {
-      const naver = await naverPool.getNaverById(id);
-      const naverProjects = await naverPool.getNaverProjects(id);
+      const naver = await naverModel.getNaverById(id);
+      const naverProjects = await naverModel.getNaverProjects(id);
 
       const reponse = naver;
       reponse.projects = naverProjects;
@@ -33,15 +33,15 @@ module.exports = {
     } = req.body;
 
     try {
-      const newNaver = await naverPool.createNaver(
+      const newNaver = await naverModel.createNaver(
         name, birthdate, admission_date, job_role,
       );
 
       const naverId = newNaver.id;
 
-      if (projects.length > 0) await naverPool.assignNaverToProjects(naverId, projects);
+      if (projects.length > 0) await naverModel.assignNaverToProjects(naverId, projects);
 
-      const naverProjects = await naverPool.getNaverProjects(naverId);
+      const naverProjects = await naverModel.getNaverProjects(naverId);
 
       const response = newNaver;
       response.projects = naverProjects;
