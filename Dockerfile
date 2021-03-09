@@ -4,11 +4,11 @@ FROM node:14-alpine
 WORKDIR /usr/src/
 
 # Install dependecies
-COPY ./backend/package*.json /usr/src/
+COPY ./package*.json ./
 RUN npm install
 
 # Copy application to docker
-COPY ./backend /usr/src/
+COPY ./backend ./
 
 # 'ash' replaces 'bash' in alpine containers
 ENTRYPOINT [ "/bin/ash" ]
