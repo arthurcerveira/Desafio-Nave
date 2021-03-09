@@ -1,6 +1,6 @@
 const naversEndpoint = 'https://my-json-server.typicode.com/naveteam/fake-api/navers';
 
-async function setNaversData() {
+async function addNaverCards() {
     const naversData = await fetch(naversEndpoint).then(response => response.json());
     const naversDiv = document.querySelector(".navers");
 
@@ -32,4 +32,4 @@ async function setNaversData() {
     })    
 }
 
-window.addEventListener("load", () => setNaversData());
+window.addEventListener("load", () => addNaverCards());
