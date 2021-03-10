@@ -26,7 +26,7 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 
-A API agora estará sendo executada no endereço `http://localhost:5000/`.
+A API agora estará sendo executada no endereço `localhost:5000/`.
 
 Para interromper a execução dos containers, basta executar o comando:
 
@@ -41,19 +41,19 @@ A documentação completa da API está disponível no [Postman](https://document
 **Navers**
 
 ```
-GET http://localhost:5000/naver
+GET localhost:5000/naver
 ```
 
 Retorna todos os Navers.
 
 ```
-GET http://localhost:5000/naver/:id
+GET localhost:5000/naver/:id
 ```
 
 Recebe o ID do Naver como parâmetro e retorna seus dados e os projetos que faz parte.
 
 ```
-POST http://localhost:5000/naver/
+POST localhost:5000/naver/
 ```
 
 Cria um novo Naver informando seus dados e os projetos que participa.
@@ -73,19 +73,19 @@ Exemplo de body da requisição:
 **Projetos**
 
 ```
-GET http://localhost:5000/project
+GET localhost:5000/project
 ```
 
 Retorna todos os projetos.
 
 ```
-GET http://localhost:5000/naver/:id
+GET localhost:5000/naver/:id
 ```
 
 Recebe o ID do projeto como parâmetro e retorna seus dados e os Navers que participam.
 
 ```
-POST http://localhost:5000/naver/
+POST localhost:5000/naver/
 ```
 
 Cria um novo projeto informando seus dados e os Navers que participam.
