@@ -5,7 +5,11 @@ module.exports = {
     try {
       const projects = await projectModel.getProjects();
 
-      res.json(projects);
+      if (projects.length === 0) res.json({
+        message: 'Nenhum projeto encontrado'
+      })
+      else res.json(projects);
+
     } catch (err) {
       res.json({ error: err });
     }
@@ -17,12 +21,18 @@ module.exports = {
     try {
       const project = await projectModel.getProjectById(id);
 
-      const projectNavers = await projectModel.getProjectNavers(id);
+      if (!project) res.json({
+        message: `Nenhum projeto encontrado com ID ${id}`
+      })
+      else {
+        const projectNavers = await projectModel.getProjectNavers(id);
 
-      const reponse = project;
-      reponse.navers = projectNavers;
+        const reponse = project;
+        reponse.navers = projectNavers;
 
-      res.json(reponse);
+        res.json(reponse);
+      }
+
     } catch (err) {
       res.json({ error: err });
     }
@@ -44,6 +54,7 @@ module.exports = {
       response.navers = projectNavers;
 
       res.json(response);
+
     } catch (err) {
       res.json({ error: err });
     }

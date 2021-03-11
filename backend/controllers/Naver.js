@@ -5,7 +5,11 @@ module.exports = {
     try {
       const navers = await naverModel.getNavers();
 
-      res.json(navers);
+      if (navers.length === 0) res.json({
+          message: 'Nenhum Naver encontrado'
+        })
+      else res.json(navers);
+
     } catch (err) {
       res.json({ error: err });
     }
@@ -16,12 +20,19 @@ module.exports = {
 
     try {
       const naver = await naverModel.getNaverById(id);
-      const naverProjects = await naverModel.getNaverProjects(id);
 
-      const reponse = naver;
-      reponse.projects = naverProjects;
+      if (!naver) res.json({
+          message: `Nenhum Naver encontrado com ID ${id}`
+        })
+      else {
+        const naverProjects = await naverModel.getNaverProjects(id);
 
-      res.json(reponse);
+        const reponse = naver;
+        reponse.projects = naverProjects;
+
+        res.json(reponse);
+      }
+
     } catch (err) {
       res.json({ error: err });
     }
@@ -47,6 +58,7 @@ module.exports = {
       response.projects = naverProjects;
 
       res.json(response);
+  
     } catch (err) {
       res.json({ error: err });
     }
